@@ -12,6 +12,7 @@ package net.researchgate.release
 
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
+import spock.lang.Ignore
 
 import static org.eclipse.jgit.lib.Repository.shortenRefName
 
@@ -31,6 +32,7 @@ class GitReleasePluginIntegrationTests extends GitSpecification {
         gitCheckoutBranch(remoteGit)
     }
 
+    @Ignore
     def 'integration test'() {
         given: 'setting project version to 1.1'
         project.version = '1.1'

@@ -42,6 +42,8 @@ class ReleaseExtension {
 
     def pushReleaseVersionBranch = false
 
+    boolean useAutomaticVersion = false
+
     /**
      * as of 3.0 set this to "$version" by default
      */

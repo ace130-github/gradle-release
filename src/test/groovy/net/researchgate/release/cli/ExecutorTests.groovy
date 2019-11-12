@@ -14,6 +14,8 @@ import spock.lang.Specification
 
 public class ExecutorTests extends Specification {
 
+    def cmd = System.getProperty("os.name").toLowerCase().startsWith("win") ? ['CMD', '/c', 'SET'] : ['env']
+
     Executor executor
 
     def setup() {
@@ -22,21 +24,21 @@ public class ExecutorTests extends Specification {
 
     def 'supplied envs are taken'() {
         given:
-        String output = executor.exec(['env'], env: ['TEST_RELEASE': 1234])
+        String output = executor.exec(cmd, env: ['TEST_RELEASE': 1234])
         expect:
         output.findAll(/(?m)^TEST_RELEASE=1234$/).size() == 1
     }
 
     def 'system envs are merged'() {
         given:
-        String output = executor.exec(['env'])
+        String output = executor.exec(cmd).toUpperCase();
         expect:
         output.findAll(/(?m)^PATH=/).size() == 1
     }
 
     def 'supplied envs overwrite system envs'() {
         given:
-        String output = executor.exec(['env'], env: ['PATH': 1234])
+        String output = executor.exec(cmd, env: ['PATH': 1234])
         expect:
         output.findAll(/(?m)^PATH=1234$/).size() == 1
         output.findAll(/(?m)^PATH=/).size() == 1
